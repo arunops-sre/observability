@@ -1,1 +1,1695 @@
-<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ArunOps | Day 01 — Observability Fundamentals</title><link rel="stylesheet" href="style.css"></head><body><header class="nav"><a class="brand" href="index.html">Arun<b>Ops</b></a><nav class="links"><a href="index.html">Introduction</a><a href="roadmap.html">Roadmap</a><a href="day-01.html">Day 1</a><a href="day-02.html">Day 2</a><a href="day-03.html">Day 3</a><a href="day-04.html">Day 4</a><a href="day-05.html">Day 5</a><a href="day-06.html">Day 6</a><a href="day-07.html">Day 7</a></nav></header><section class="classhero"><div class="kicker">DAY 01 • ARUNOPS OBSERVABILITY</div><h1>Observability Fundamentals</h1><p>Introduction, observability, monitoring and telemetry.</p></section><main class="container"><section class="lesson"><div class="kicker">TOPIC 01</div><h2>What is Observability?</h2><p class="definition">Observability is the ability to understand a system's internal state from the data it produces.</p></section><section class="lesson"><div class="kicker">TOPIC 02</div><h2>Why do we need it?</h2><p class="definition">Modern distributed systems have many services and dependencies, making failures harder to investigate.</p></section><section class="lesson"><div class="kicker">TOPIC 03</div><h2>Telemetry</h2><p class="definition">Telemetry is the data emitted by systems that gives engineers visibility into behavior and health.</p></section><section class="lesson"><div class="kicker">TOPIC 04</div><h2>SRE connection</h2><p class="definition">Observability signals help SREs detect, investigate, resolve and verify production issues.</p></section><div class="lessonnav"><a href="index.html">← Previous</a><a href="day-02.html">Next Day →</a></div></main><footer><strong>ArunOps</strong> • SRE | DevOps | Cloud | Observability<br><br>Learn • Build • Automate • Observe</footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ArunOps | Day 1 - Observability Fundamentals</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        /* ========================================
+           GLOBAL
+        ======================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #172554 0%,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at top right,
+                    #164e63 0%,
+                    transparent 30%
+                ),
+                #020617;
+
+            color: #e5e7eb;
+
+            line-height: 1.7;
+
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 40px 0 70px;
+        }
+
+
+        /* ========================================
+           HEADER
+        ======================================== */
+
+        .header {
+
+            text-align: center;
+
+            padding: 45px 25px;
+
+            margin-bottom: 45px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(15, 23, 42, 0.96),
+                    rgba(30, 41, 59, 0.86)
+                );
+
+            border: 1px solid
+                rgba(56, 189, 248, 0.25);
+
+            border-radius: 24px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0, 0, 0, 0.45),
+
+                inset 0 1px 0
+                rgba(255,255,255,0.05);
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .header::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            background: #2563eb;
+
+            filter: blur(120px);
+
+            opacity: 0.20;
+
+            top: -150px;
+            left: -100px;
+        }
+
+
+        .header::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            background: #06b6d4;
+
+            filter: blur(120px);
+
+            opacity: 0.15;
+
+            bottom: -160px;
+            right: -100px;
+        }
+
+
+        /* ========================================
+           BRAND
+        ======================================== */
+
+        .brand {
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .brand-name {
+
+            font-size: 52px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #38bdf8,
+                    #60a5fa,
+                    #a78bfa
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            letter-spacing: -2px;
+        }
+
+
+        .brand-tagline {
+
+            margin-top: 5px;
+
+            font-family:
+                "JetBrains Mono",
+                monospace;
+
+            font-size: 14px;
+
+            color: #94a3b8;
+        }
+
+
+        /* ========================================
+           DAY BADGE
+        ======================================== */
+
+        .day-badge {
+
+            display: inline-block;
+
+            margin-top: 25px;
+
+            padding: 8px 18px;
+
+            font-family:
+                "JetBrains Mono",
+                monospace;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            color: #67e8f9;
+
+            background:
+                rgba(8, 145, 178, 0.12);
+
+            border:
+                1px solid
+                rgba(34, 211, 238, 0.35);
+
+            border-radius: 50px;
+
+            letter-spacing: 1px;
+        }
+
+
+        /* ========================================
+           MAIN TITLE
+        ======================================== */
+
+        .main-title {
+
+            margin-top: 18px;
+
+            font-size: 42px;
+
+            font-weight: 800;
+
+            color: #f8fafc;
+
+            letter-spacing: -1.5px;
+        }
+
+
+        .subtitle {
+
+            margin-top: 12px;
+
+            color: #94a3b8;
+
+            font-size: 17px;
+        }
+
+
+        /* ========================================
+           SECTION TITLE
+        ======================================== */
+
+        .section-title {
+
+            margin: 45px 0 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            font-size: 14px;
+
+            color: #67e8f9;
+
+            font-family:
+                "JetBrains Mono",
+                monospace;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        .section-title::before {
+
+            content: "";
+
+            width: 35px;
+
+            height: 2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #38bdf8,
+                    #8b5cf6
+                );
+
+            border-radius: 5px;
+        }
+
+
+        /* ========================================
+           TOPIC CARDS
+        ======================================== */
+
+        .topic {
+
+            position: relative;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 23, 42, 0.96),
+                    rgba(30, 41, 59, 0.82)
+                );
+
+            border:
+                1px solid
+                rgba(148, 163, 184, 0.13);
+
+            border-radius: 16px;
+
+            padding: 24px 28px;
+
+            margin-bottom: 16px;
+
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+
+            overflow: hidden;
+        }
+
+
+        .topic::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 4px;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #38bdf8,
+                    #6366f1,
+                    #a855f7
+                );
+
+            opacity: 0.85;
+        }
+
+
+        .topic:hover {
+
+            transform:
+                translateY(-4px);
+
+            border-color:
+                rgba(56, 189, 248, 0.4);
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.35),
+
+                0 0 25px
+                rgba(14, 165, 233, 0.08);
+        }
+
+
+        /* ========================================
+           TOPIC NUMBER
+        ======================================== */
+
+        .topic-number {
+
+            display: inline-block;
+
+            font-family:
+                "JetBrains Mono",
+                monospace;
+
+            font-size: 12px;
+
+            color: #38bdf8;
+
+            background:
+                rgba(14, 165, 233, 0.10);
+
+            padding: 4px 9px;
+
+            border-radius: 6px;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* ========================================
+           TOPIC HEADING
+        ======================================== */
+
+        .topic h2 {
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+            color: #f8fafc;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* ========================================
+           DESCRIPTION
+        ======================================== */
+
+        .topic p {
+
+            font-size: 15px;
+
+            color: #a8b3c5;
+
+            line-height: 1.7;
+        }
+
+
+        /* ========================================
+           KEY CONCEPT
+        ======================================== */
+
+        .highlight {
+
+            margin: 35px 0;
+
+            padding: 25px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(14, 165, 233, 0.12),
+                    rgba(99, 102, 241, 0.10)
+                );
+
+            border:
+                1px solid
+                rgba(56, 189, 248, 0.25);
+        }
+
+
+        .highlight-title {
+
+            font-family:
+                "JetBrains Mono",
+                monospace;
+
+            color: #67e8f9;
+
+            font-size: 13px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .highlight-text {
+
+            font-size: 19px;
+
+            font-weight: 600;
+
+            color: #f8fafc;
+        }
+
+
+        /* ========================================
+           CODE / CONCEPT BOX
+        ======================================== */
+
+        .concept-box {
+
+            margin-top: 18px;
+
+            padding: 20px;
+
+            background: #020617;
+
+            border:
+                1px solid
+                rgba(56, 189, 248, 0.18);
+
+            border-radius: 12px;
+
+            font-family:
+                "JetBrains Mono",
+                monospace;
+
+            color: #93c5fd;
+
+            font-size: 14px;
+
+            overflow-x: auto;
+        }
+
+
+        /* ========================================
+           THREE PILLARS
+        ======================================== */
+
+        .pillars {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(200px, 1fr)
+                );
+
+            gap: 16px;
+
+            margin-top: 20px;
+        }
+
+
+        .pillar {
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 23, 42, 0.95),
+                    rgba(30, 41, 59, 0.85)
+                );
+
+            border:
+                1px solid
+                rgba(148, 163, 184, 0.15);
+
+            transition:
+                transform 0.25s ease;
+        }
+
+
+        .pillar:hover {
+
+            transform:
+                translateY(-5px);
+        }
+
+
+        .pillar-icon {
+
+            font-size: 30px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .pillar h3 {
+
+            color: #f8fafc;
+
+            margin-bottom: 6px;
+        }
+
+
+        .pillar p {
+
+            font-size: 14px;
+
+            color: #94a3b8;
+        }
+
+
+        /* ========================================
+           FLOW
+        ======================================== */
+
+        .flow {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+
+        .flow-item {
+
+            padding: 12px 18px;
+
+            background:
+                rgba(30, 41, 59, 0.9);
+
+            border:
+                1px solid
+                rgba(56, 189, 248, 0.25);
+
+            border-radius: 10px;
+
+            font-family:
+                "JetBrains Mono",
+                monospace;
+
+            font-size: 13px;
+
+            color: #bae6fd;
+        }
+
+
+        .arrow {
+
+            color: #38bdf8;
+
+            font-size: 20px;
+
+            font-weight: bold;
+        }
+
+
+        /* ========================================
+           LEARNING OUTCOMES
+        ======================================== */
+
+        .outcomes {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(220px, 1fr)
+                );
+
+            gap: 14px;
+
+            margin-top: 20px;
+        }
+
+
+        .outcome {
+
+            padding: 18px;
+
+            background:
+                rgba(15, 23, 42, 0.85);
+
+            border:
+                1px solid
+                rgba(148, 163, 184, 0.12);
+
+            border-radius: 12px;
+
+            color: #cbd5e1;
+
+            font-size: 14px;
+        }
+
+
+        .outcome::before {
+
+            content: "✓";
+
+            color: #22d3ee;
+
+            font-weight: bold;
+
+            margin-right: 8px;
+        }
+
+
+        /* ========================================
+           FOOTER
+        ======================================== */
+
+        .footer {
+
+            margin-top: 60px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            border-top:
+                1px solid
+                rgba(148, 163, 184, 0.12);
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        .footer-brand {
+
+            font-size: 22px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #38bdf8,
+                    #a78bfa
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+
+        @media (max-width: 700px) {
+
+            .container {
+
+                width: 94%;
+
+                padding-top: 20px;
+            }
+
+            .brand-name {
+
+                font-size: 40px;
+            }
+
+            .main-title {
+
+                font-size: 30px;
+            }
+
+            .subtitle {
+
+                font-size: 15px;
+            }
+
+            .topic {
+
+                padding: 20px;
+            }
+
+            .flow {
+
+                flex-direction: column;
+            }
+
+            .arrow {
+
+                transform:
+                    rotate(90deg);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- ========================================
+         HEADER
+    ========================================= -->
+
+    <header class="header">
+
+        <div class="brand">
+
+            <div class="brand-name">
+                ArunOps
+            </div>
+
+            <div class="brand-tagline">
+                Cloud • DevOps • SRE • Observability • AI
+            </div>
+
+
+            <div class="day-badge">
+                DAY 01 • OBSERVABILITY FUNDAMENTALS
+            </div>
+
+
+            <h1 class="main-title">
+                Observability Fundamentals
+            </h1>
+
+
+            <p class="subtitle">
+                Understanding the foundation of modern observability
+                for SRE & DevOps Engineers
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ========================================
+         LEARNING OBJECTIVES
+    ========================================= -->
+
+    <div class="section-title">
+        What You Will Learn
+    </div>
+
+
+    <div class="outcomes">
+
+        <div class="outcome">
+            Understand the fundamentals of Observability
+        </div>
+
+        <div class="outcome">
+            Understand why traditional monitoring has limitations
+        </div>
+
+        <div class="outcome">
+            Understand Metrics, Logs and Traces
+        </div>
+
+        <div class="outcome">
+            Understand telemetry and data flow
+        </div>
+
+        <div class="outcome">
+            Understand Observability from an SRE perspective
+        </div>
+
+        <div class="outcome">
+            Understand how Observability helps troubleshoot production
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         SECTION 1
+    ========================================= -->
+
+    <div class="section-title">
+        01 • Observability Fundamentals
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            01
+        </span>
+
+        <h2>
+            What is Observability?
+        </h2>
+
+        <p>
+            Observability is the ability to understand what is happening
+            inside a system by analyzing the data produced by that system.
+        </p>
+
+    </div>
+
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            02
+        </span>
+
+        <h2>
+            Observability from an SRE Perspective
+        </h2>
+
+        <p>
+            For an SRE, observability provides the evidence required to
+            understand service health, user impact, reliability, and
+            production behavior.
+        </p>
+
+    </div>
+
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            03
+        </span>
+
+        <h2>
+            Observability from a DevOps Perspective
+        </h2>
+
+        <p>
+            For DevOps engineers, observability provides visibility across
+            applications, infrastructure, deployments, containers,
+            Kubernetes, and cloud resources.
+        </p>
+
+    </div>
+
+
+
+    <!-- ========================================
+         SECTION 2
+    ========================================= -->
+
+    <div class="section-title">
+        02 • Why Observability?
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            04
+        </span>
+
+        <h2>
+            Why Do We Need Observability?
+        </h2>
+
+        <p>
+            Modern distributed systems contain many interconnected components,
+            making it difficult to identify failures without collecting and
+            correlating system telemetry.
+        </p>
+
+    </div>
+
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            05
+        </span>
+
+        <h2>
+            Complexity of Modern Applications
+        </h2>
+
+        <p>
+            Microservices, APIs, databases, queues, containers, Kubernetes,
+            and external services create complex request and dependency paths.
+        </p>
+
+    </div>
+
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            06
+        </span>
+
+        <h2>
+            The Production Problem
+        </h2>
+
+        <p>
+            A system can appear healthy at the infrastructure level while
+            users experience latency, errors, failed transactions, or degraded
+            application performance.
+        </p>
+
+    </div>
+
+
+
+    <div class="highlight">
+
+        <div class="highlight-title">
+            REAL PRODUCTION QUESTION
+        </div>
+
+        <div class="highlight-text">
+            "CPU is normal. Memory is normal. Pods are healthy.
+            So why is the application still slow?"
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         SECTION 3
+    ========================================= -->
+
+    <div class="section-title">
+        03 • Monitoring vs Observability
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            07
+        </span>
+
+        <h2>
+            What is Monitoring?
+        </h2>
+
+        <p>
+            Monitoring continuously checks predefined system conditions
+            and alerts engineers when known thresholds or failure conditions
+            are reached.
+        </p>
+
+    </div>
+
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            08
+        </span>
+
+        <h2>
+            What is Observability?
+        </h2>
+
+        <p>
+            Observability enables engineers to investigate system behavior
+            and answer questions about unknown or unexpected problems.
+        </p>
+
+    </div>
+
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            09
+        </span>
+
+        <h2>
+            Monitoring vs Observability
+        </h2>
+
+        <p>
+            Monitoring focuses on detecting known problems, while observability
+            focuses on understanding system behavior and investigating why
+            problems occur.
+        </p>
+
+    </div>
+
+
+    <div class="concept-box">
+
+        Monitoring → "Something is wrong"
+
+        <br><br>
+
+        Observability → "What is wrong, where is it happening,
+        and why is it happening?"
+
+    </div>
+
+
+
+    <!-- ========================================
+         SECTION 4
+    ========================================= -->
+
+    <div class="section-title">
+        04 • Three Pillars
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            10
+        </span>
+
+        <h2>
+            The Three Pillars of Observability
+        </h2>
+
+        <p>
+            Metrics, Logs, and Traces provide complementary information
+            that helps engineers understand different aspects of system behavior.
+        </p>
+
+    </div>
+
+
+    <div class="pillars">
+
+
+        <div class="pillar">
+
+            <div class="pillar-icon">
+                📊
+            </div>
+
+            <h3>
+                Metrics
+            </h3>
+
+            <p>
+                Numerical measurements that show
+                system behavior and trends.
+            </p>
+
+        </div>
+
+
+        <div class="pillar">
+
+            <div class="pillar-icon">
+                📜
+            </div>
+
+            <h3>
+                Logs
+            </h3>
+
+            <p>
+                Detailed records that explain
+                events occurring inside systems.
+            </p>
+
+        </div>
+
+
+        <div class="pillar">
+
+            <div class="pillar-icon">
+                🔍
+            </div>
+
+            <h3>
+                Traces
+            </h3>
+
+            <p>
+                Request journeys that show how
+                operations move across services.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ========================================
+         SECTION 5
+    ========================================= -->
+
+    <div class="section-title">
+        05 • Telemetry
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            11
+        </span>
+
+        <h2>
+            What is Telemetry?
+        </h2>
+
+        <p>
+            Telemetry is the collection of data generated by applications,
+            infrastructure, and services that allows engineers to understand
+            system behavior.
+        </p>
+
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            12
+        </span>
+
+        <h2>
+            Telemetry Data Flow
+        </h2>
+
+        <p>
+            Telemetry is generated by systems, collected by agents or
+            collectors, stored in observability platforms, and analyzed
+            by engineers.
+        </p>
+
+    </div>
+
+
+    <div class="flow">
+
+        <div class="flow-item">
+            Application
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Telemetry
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Collection
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Storage
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Analysis
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         SECTION 6
+    ========================================= -->
+
+    <div class="section-title">
+        06 • Production Observability
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            13
+        </span>
+
+        <h2>
+            Observability in a Distributed System
+        </h2>
+
+        <p>
+            Distributed-system observability connects information from
+            multiple services and dependencies to understand the complete
+            path of a user request.
+        </p>
+
+    </div>
+
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            14
+        </span>
+
+        <h2>
+            Observability in Kubernetes
+        </h2>
+
+        <p>
+            Kubernetes observability provides visibility into clusters,
+            nodes, pods, containers, services, workloads, networking,
+            and applications.
+        </p>
+
+    </div>
+
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            15
+        </span>
+
+        <h2>
+            Observability in Cloud Environments
+        </h2>
+
+        <p>
+            Cloud observability provides visibility across compute,
+            networking, databases, containers, serverless services,
+            and other cloud resources.
+        </p>
+
+    </div>
+
+
+
+    <!-- ========================================
+         SECTION 7
+    ========================================= -->
+
+    <div class="section-title">
+        07 • SRE & Observability
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            16
+        </span>
+
+        <h2>
+            How SREs Use Observability
+        </h2>
+
+        <p>
+            SREs use observability to detect incidents, investigate failures,
+            understand user impact, identify root causes, and verify recovery.
+        </p>
+
+    </div>
+
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            17
+        </span>
+
+        <h2>
+            Observability & Incident Response
+        </h2>
+
+        <p>
+            During incidents, observability provides the telemetry required
+            to quickly identify symptoms, isolate affected components,
+            and investigate the underlying cause.
+        </p>
+
+    </div>
+
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            18
+        </span>
+
+        <h2>
+            Observability & Root Cause Analysis
+        </h2>
+
+        <p>
+            Root cause analysis uses correlated telemetry and system context
+            to determine the underlying reason behind a production failure.
+        </p>
+
+    </div>
+
+
+
+    <!-- ========================================
+         SECTION 8
+    ========================================= -->
+
+    <div class="section-title">
+        08 • Observability Mindset
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            19
+        </span>
+
+        <h2>
+            The SRE Observability Mindset
+        </h2>
+
+        <p>
+            Instead of asking only whether infrastructure is healthy,
+            SREs focus on whether users are successfully receiving the
+            expected service.
+        </p>
+
+    </div>
+
+
+    <div class="highlight">
+
+        <div class="highlight-title">
+            THINK LIKE AN SRE
+        </div>
+
+        <div class="highlight-text">
+            "Is the server healthy?" is only one question.
+            "Is the user getting a reliable service?" is the bigger question.
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         SECTION 9
+    ========================================= -->
+
+    <div class="section-title">
+        09 • Observability Investigation Flow
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            20
+        </span>
+
+        <h2>
+            Observability Investigation Workflow
+        </h2>
+
+        <p>
+            Engineers typically move from detecting a symptom to analyzing
+            telemetry, identifying the affected component, finding the cause,
+            and verifying recovery.
+        </p>
+
+    </div>
+
+
+    <div class="flow">
+
+        <div class="flow-item">
+            Incident
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Metrics
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Logs
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Traces
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Root Cause
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Recovery
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         SECTION 10
+    ========================================= -->
+
+    <div class="section-title">
+        10 • Real-World Scenario
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            21
+        </span>
+
+        <h2>
+            Scenario: API Latency Increased
+        </h2>
+
+        <p>
+            When an API becomes slow, engineers can use metrics to detect
+            increased latency, logs to identify errors, and traces to locate
+            the service or dependency causing the delay.
+        </p>
+
+    </div>
+
+
+    <div class="concept-box">
+
+        User Complaint
+
+        ↓
+
+        API Latency Increased
+
+        ↓
+
+        Metrics
+
+        ↓
+
+        Application Logs
+
+        ↓
+
+        Distributed Trace
+
+        ↓
+
+        Dependency Analysis
+
+        ↓
+
+        Root Cause
+
+        ↓
+
+        Fix & Verify
+
+    </div>
+
+
+
+    <!-- ========================================
+         SECTION 11
+    ========================================= -->
+
+    <div class="section-title">
+        11 • Day 1 Summary
+    </div>
+
+
+    <div class="topic">
+
+        <span class="topic-number">
+            22
+        </span>
+
+        <h2>
+            Day 1 Summary
+        </h2>
+
+        <p>
+            Observability combines telemetry, engineering practices,
+            and system context to help SRE and DevOps teams understand
+            and troubleshoot complex production environments.
+        </p>
+
+    </div>
+
+
+
+    <!-- ========================================
+         KEY TAKEAWAYS
+    ========================================= -->
+
+    <div class="highlight">
+
+        <div class="highlight-title">
+            DAY 1 — KEY TAKEAWAYS
+        </div>
+
+        <div class="highlight-text">
+
+            Observability is not just a monitoring tool.
+
+            <br><br>
+
+            It is a way of understanding system behavior using
+            Metrics, Logs, Traces, and other telemetry.
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         NEXT CLASS
+    ========================================= -->
+
+    <div class="section-title">
+        Coming Next
+    </div>
+
+
+    <div class="highlight">
+
+        <div class="highlight-title">
+            ARUNOPS • NEXT CLASS
+        </div>
+
+        <div class="highlight-text">
+            Monitoring vs Observability — Why Traditional Monitoring
+            Is Not Enough
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         FOOTER
+    ========================================= -->
+
+    <footer class="footer">
+
+        <div class="footer-brand">
+            ArunOps
+        </div>
+
+        Observability Series for SRE & DevOps Engineers
+
+        <br><br>
+
+        <span>
+            Learn • Practice • Troubleshoot • Master
+        </span>
+
+    </footer>
+
+
+</div>
+
+
+</body>
+</html>
