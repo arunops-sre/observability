@@ -6,278 +6,1072 @@
 
     <title>ArunOps | Introduction to Observability</title>
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f9fc;
-            color: #1f2937;
-            line-height: 1.6;
+
+        /* ================================
+           GLOBAL
+        ================================= */
+
+        * {
+            box-sizing: border-box;
             margin: 0;
-            padding: 40px;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(circle at top left, #172554 0%, transparent 35%),
+                radial-gradient(circle at top right, #164e63 0%, transparent 30%),
+                #020617;
+
+            color: #e5e7eb;
+            line-height: 1.7;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1000px;
+            width: 92%;
+            max-width: 1100px;
             margin: auto;
+            padding: 40px 0 70px;
         }
 
-        /* ArunOps Header */
-        .brand {
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        .header {
             text-align: center;
-            margin-bottom: 35px;
+            padding: 45px 25px;
+            margin-bottom: 45px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(15, 23, 42, 0.95),
+                    rgba(30, 41, 59, 0.85)
+                );
+
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 24px;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.45),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        /* Decorative glow */
+
+        .header::before {
+            content: "";
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            background: #2563eb;
+            filter: blur(120px);
+            opacity: 0.20;
+
+            top: -150px;
+            left: -100px;
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            background: #06b6d4;
+            filter: blur(120px);
+            opacity: 0.15;
+
+            bottom: -160px;
+            right: -100px;
+        }
+
+
+        /* ================================
+           BRAND
+        ================================= */
+
+        .brand {
+            position: relative;
+            z-index: 2;
         }
 
         .brand-name {
-            font-size: 32px;
-            font-weight: bold;
-            color: #2563eb;
-            margin-bottom: 8px;
+            font-size: 52px;
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #38bdf8,
+                    #60a5fa,
+                    #a78bfa
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            letter-spacing: -2px;
         }
 
         .brand-tagline {
-            font-size: 15px;
-            color: #6b7280;
+            margin-top: 5px;
+
+            font-family: "JetBrains Mono", monospace;
+
+            font-size: 14px;
+            color: #94a3b8;
         }
 
-        h1 {
-            text-align: center;
-            color: #111827;
-            margin-bottom: 10px;
-            font-size: 34px;
+
+        /* ================================
+           COURSE BADGE
+        ================================= */
+
+        .course-badge {
+            display: inline-block;
+
+            margin-top: 25px;
+            padding: 8px 16px;
+
+            font-family: "JetBrains Mono", monospace;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            color: #67e8f9;
+
+            background: rgba(8, 145, 178, 0.12);
+
+            border: 1px solid rgba(34, 211, 238, 0.35);
+
+            border-radius: 50px;
+
+            letter-spacing: 1px;
+        }
+
+
+        /* ================================
+           TITLE
+        ================================= */
+
+        .main-title {
+            margin-top: 18px;
+
+            font-size: 42px;
+            font-weight: 800;
+
+            color: #f8fafc;
+
+            letter-spacing: -1.5px;
         }
 
         .subtitle {
-            text-align: center;
-            color: #6b7280;
-            margin-bottom: 40px;
+            margin-top: 12px;
+
+            color: #94a3b8;
+
             font-size: 17px;
         }
 
-        .topic {
-            background: white;
-            padding: 20px 25px;
-            margin-bottom: 18px;
-            border-radius: 10px;
-            border: 1px solid #e5e7eb;
+
+        /* ================================
+           SECTION TITLE
+        ================================= */
+
+        .section-title {
+            margin: 45px 0 20px;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 14px;
+
+            color: #67e8f9;
+
+            font-family: "JetBrains Mono", monospace;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
         }
+
+        .section-title::before {
+            content: "";
+
+            width: 35px;
+            height: 2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #38bdf8,
+                    #8b5cf6
+                );
+
+            border-radius: 5px;
+        }
+
+
+        /* ================================
+           TOPIC CARDS
+        ================================= */
+
+        .topic {
+            position: relative;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 23, 42, 0.96),
+                    rgba(30, 41, 59, 0.82)
+                );
+
+            border: 1px solid rgba(148, 163, 184, 0.13);
+
+            border-radius: 16px;
+
+            padding: 24px 28px;
+
+            margin-bottom: 16px;
+
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+
+            overflow: hidden;
+        }
+
+
+        /* Left accent */
+
+        .topic::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 4px;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #38bdf8,
+                    #6366f1,
+                    #a855f7
+                );
+
+            opacity: 0.85;
+        }
+
+
+        .topic:hover {
+            transform: translateY(-4px);
+
+            border-color: rgba(56, 189, 248, 0.4);
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.35),
+                0 0 25px rgba(14, 165, 233, 0.08);
+        }
+
+
+        /* ================================
+           TOPIC NUMBER
+        ================================= */
+
+        .topic-number {
+            display: inline-block;
+
+            font-family: "JetBrains Mono", monospace;
+
+            font-size: 12px;
+
+            color: #38bdf8;
+
+            background: rgba(14, 165, 233, 0.10);
+
+            padding: 4px 9px;
+
+            border-radius: 6px;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* ================================
+           TOPIC HEADING
+        ================================= */
 
         .topic h2 {
-            margin-top: 0;
-            margin-bottom: 8px;
-            color: #111827;
             font-size: 21px;
+
+            font-weight: 700;
+
+            color: #f8fafc;
+
+            margin-bottom: 8px;
         }
+
+
+        /* ================================
+           DESCRIPTION
+        ================================= */
 
         .topic p {
-            margin: 0;
-            color: #4b5563;
-            font-size: 16px;
+            font-size: 15px;
+
+            color: #a8b3c5;
+
+            line-height: 1.7;
         }
 
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 45px;
+
+        /* ================================
+           HIGHLIGHT BOX
+        ================================= */
+
+        .highlight {
+            margin: 35px 0;
+
             padding: 25px;
-            color: #6b7280;
-            border-top: 1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(14, 165, 233, 0.12),
+                    rgba(99, 102, 241, 0.10)
+                );
+
+            border: 1px solid rgba(56, 189, 248, 0.25);
         }
 
-        .footer strong {
-            color: #2563eb;
+        .highlight-title {
+            font-family: "JetBrains Mono", monospace;
+
+            color: #67e8f9;
+
+            font-size: 13px;
+
+            margin-bottom: 10px;
         }
+
+        .highlight-text {
+            font-size: 19px;
+
+            font-weight: 600;
+
+            color: #f8fafc;
+        }
+
+
+        /* ================================
+           ROADMAP PREVIEW
+        ================================= */
+
+        .roadmap {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(180px, 1fr));
+
+            gap: 14px;
+
+            margin-top: 25px;
+        }
+
+        .roadmap-item {
+            padding: 18px;
+
+            text-align: center;
+
+            background: rgba(15, 23, 42, 0.85);
+
+            border: 1px solid rgba(148, 163, 184, 0.12);
+
+            border-radius: 12px;
+
+            font-size: 14px;
+
+            color: #cbd5e1;
+        }
+
+        .roadmap-item strong {
+            display: block;
+
+            color: #38bdf8;
+
+            margin-bottom: 4px;
+        }
+
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        .footer {
+            margin-top: 60px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            border-top: 1px solid rgba(148, 163, 184, 0.12);
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        .footer-brand {
+            font-size: 22px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #38bdf8,
+                    #a78bfa
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 0;
+            }
+
+            .container {
+                width: 94%;
+                padding-top: 20px;
+            }
+
+            .brand-name {
+                font-size: 40px;
+            }
+
+            .main-title {
+                font-size: 30px;
+            }
+
+            .subtitle {
+                font-size: 15px;
+            }
+
+            .topic {
+                padding: 20px;
+            }
+
+        }
+
     </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
-    <!-- ArunOps Branding -->
-    <div class="brand">
-        <div class="brand-name">ArunOps</div>
-        <div class="brand-tagline">
-            Learn Cloud • DevOps • SRE • Observability
+
+    <!-- =================================
+         ARUNOPS HEADER
+    ================================== -->
+
+    <header class="header">
+
+        <div class="brand">
+
+            <div class="brand-name">
+                ArunOps
+            </div>
+
+            <div class="brand-tagline">
+                Cloud • DevOps • SRE • Observability • AI
+            </div>
+
+            <div class="course-badge">
+                OBSERVABILITY SERIES
+            </div>
+
+            <h1 class="main-title">
+                Introduction to Observability
+            </h1>
+
+            <p class="subtitle">
+                Building strong observability fundamentals for SRE & DevOps Engineers
+            </p>
+
         </div>
-    </div>
+
+    </header>
 
 
-    <!-- Class Title -->
-    <h1>Introduction to Observability</h1>
 
-    <div class="subtitle">
-        Observability Series for SRE & DevOps Engineers
+    <!-- =================================
+         INTRODUCTION
+    ================================== -->
+
+    <div class="section-title">
+        Introduction
     </div>
 
 
     <!-- Topic 1 -->
+
     <div class="topic">
-        <h2>1. What is Observability?</h2>
+
+        <span class="topic-number">
+            01
+        </span>
+
+        <h2>
+            What is Observability?
+        </h2>
+
         <p>
-            Observability is the ability to understand the internal behavior and health of a system by analyzing the telemetry data it produces.
+            Observability is the ability to understand the internal behavior
+            and health of a system by analyzing the telemetry data it produces.
         </p>
+
     </div>
+
 
 
     <!-- Topic 2 -->
+
     <div class="topic">
-        <h2>2. Why Do We Need Observability?</h2>
+
+        <span class="topic-number">
+            02
+        </span>
+
+        <h2>
+            Why Do We Need Observability?
+        </h2>
+
         <p>
-            Observability helps engineers understand and troubleshoot complex production systems when failures are difficult to identify using basic monitoring alone.
+            Observability helps engineers understand and troubleshoot complex
+            production systems when failures are difficult to identify using
+            basic monitoring alone.
         </p>
+
     </div>
+
 
 
     <!-- Topic 3 -->
+
     <div class="topic">
-        <h2>3. The Production Problem</h2>
+
+        <span class="topic-number">
+            03
+        </span>
+
+        <h2>
+            The Production Problem
+        </h2>
+
         <p>
-            Production issues can occur even when servers, containers, and infrastructure appear healthy, making deeper system visibility essential for finding the real cause.
+            Production issues can occur even when servers, containers, and
+            infrastructure appear healthy, making deeper system visibility
+            essential for finding the real cause.
         </p>
+
     </div>
+
 
 
     <!-- Topic 4 -->
+
     <div class="topic">
-        <h2>4. Monitoring vs Observability</h2>
+
+        <span class="topic-number">
+            04
+        </span>
+
+        <h2>
+            Monitoring vs Observability
+        </h2>
+
         <p>
-            Monitoring tells us whether known conditions are healthy or failing, while observability helps us investigate why a system behaves unexpectedly.
+            Monitoring tells us whether known conditions are healthy or failing,
+            while observability helps us investigate why a system behaves unexpectedly.
         </p>
+
     </div>
+
 
 
     <!-- Topic 5 -->
+
     <div class="topic">
-        <h2>5. Why Traditional Monitoring Is Not Enough</h2>
+
+        <span class="topic-number">
+            05
+        </span>
+
+        <h2>
+            Why Traditional Monitoring Is Not Enough
+        </h2>
+
         <p>
-            Traditional monitoring often focuses on predefined thresholds, while modern applications require deeper visibility into application behavior, dependencies, and user experience.
+            Traditional monitoring often focuses on predefined thresholds,
+            while modern applications require deeper visibility into application
+            behavior, dependencies, and user experience.
         </p>
+
     </div>
+
+
+
+    <!-- =================================
+         THREE PILLARS
+    ================================== -->
+
+    <div class="section-title">
+        Observability Fundamentals
+    </div>
+
 
 
     <!-- Topic 6 -->
+
     <div class="topic">
-        <h2>6. The Three Pillars of Observability</h2>
+
+        <span class="topic-number">
+            06
+        </span>
+
+        <h2>
+            The Three Pillars of Observability
+        </h2>
+
         <p>
-            The three commonly recognized observability signals are metrics, logs, and traces, which provide different views of system behavior.
+            Metrics, logs, and traces provide different perspectives of system
+            behavior and together form the foundation of modern observability.
         </p>
+
     </div>
+
 
 
     <!-- Topic 7 -->
+
     <div class="topic">
-        <h2>7. Metrics — Introduction</h2>
+
+        <span class="topic-number">
+            07
+        </span>
+
+        <h2>
+            Metrics — Introduction
+        </h2>
+
         <p>
-            Metrics are numerical measurements collected over time that help engineers understand system performance, health, and trends.
+            Metrics are numerical measurements collected over time that help
+            engineers understand system performance, health, and trends.
         </p>
+
     </div>
+
 
 
     <!-- Topic 8 -->
+
     <div class="topic">
-        <h2>8. Logs — Introduction</h2>
+
+        <span class="topic-number">
+            08
+        </span>
+
+        <h2>
+            Logs — Introduction
+        </h2>
+
         <p>
-            Logs are timestamped records of events generated by applications, infrastructure, and services that provide detailed information about what happened.
+            Logs are timestamped records of events generated by applications,
+            infrastructure, and services that provide detailed information about
+            what happened.
         </p>
+
     </div>
+
 
 
     <!-- Topic 9 -->
+
     <div class="topic">
-        <h2>9. Traces — Introduction</h2>
+
+        <span class="topic-number">
+            09
+        </span>
+
+        <h2>
+            Traces — Introduction
+        </h2>
+
         <p>
-            Traces follow a request across multiple services and show how the request moves through a distributed system and where time is spent.
+            Traces follow requests across multiple services and show how requests
+            move through distributed systems and where time is spent.
         </p>
+
     </div>
+
+
+
+    <!-- Highlight -->
+
+    <div class="highlight">
+
+        <div class="highlight-title">
+            ARUNOPS KEY CONCEPT
+        </div>
+
+        <div class="highlight-text">
+            Metrics tell us WHAT is happening • Logs tell us WHAT happened •
+            Traces help us understand WHERE and WHY it happened.
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================
+         TELEMETRY
+    ================================== -->
+
+    <div class="section-title">
+        Telemetry & Modern Systems
+    </div>
+
 
 
     <!-- Topic 10 -->
+
     <div class="topic">
-        <h2>10. What is Telemetry?</h2>
+
+        <span class="topic-number">
+            10
+        </span>
+
+        <h2>
+            What is Telemetry?
+        </h2>
+
         <p>
-            Telemetry is the data generated and collected from systems, applications, and infrastructure to understand their behavior and performance.
+            Telemetry is the data generated and collected from systems,
+            applications, and infrastructure to understand their behavior
+            and performance.
         </p>
+
     </div>
+
 
 
     <!-- Topic 11 -->
+
     <div class="topic">
-        <h2>11. Observability in Modern Applications</h2>
+
+        <span class="topic-number">
+            11
+        </span>
+
+        <h2>
+            Observability in Modern Applications
+        </h2>
+
         <p>
-            Modern applications use microservices, APIs, databases, queues, and external dependencies, making observability essential for understanding interactions across the entire system.
+            Modern applications use microservices, APIs, databases, queues,
+            and external dependencies, making observability essential for
+            understanding interactions across the entire system.
         </p>
+
     </div>
+
 
 
     <!-- Topic 12 -->
+
     <div class="topic">
-        <h2>12. Observability in Cloud & Kubernetes</h2>
+
+        <span class="topic-number">
+            12
+        </span>
+
+        <h2>
+            Observability in Cloud & Kubernetes
+        </h2>
+
         <p>
-            Cloud and Kubernetes environments require visibility across clusters, nodes, containers, pods, services, applications, networks, and cloud resources.
+            Cloud and Kubernetes environments require visibility across clusters,
+            nodes, containers, pods, services, applications, networks,
+            and cloud resources.
         </p>
+
     </div>
+
+
+
+    <!-- =================================
+         SRE
+    ================================== -->
+
+    <div class="section-title">
+        Observability & SRE
+    </div>
+
 
 
     <!-- Topic 13 -->
+
     <div class="topic">
-        <h2>13. How Observability Helps SREs</h2>
+
+        <span class="topic-number">
+            13
+        </span>
+
+        <h2>
+            How Observability Helps SREs
+        </h2>
+
         <p>
-            Observability helps SREs detect incidents, investigate failures, perform root-cause analysis, measure reliability, and reduce mean time to recovery.
+            Observability helps SREs detect incidents, investigate failures,
+            perform root-cause analysis, measure reliability, and reduce
+            mean time to recovery.
         </p>
+
     </div>
+
 
 
     <!-- Topic 14 -->
+
     <div class="topic">
-        <h2>14. Observability & the SRE Mindset</h2>
+
+        <span class="topic-number">
+            14
+        </span>
+
+        <h2>
+            Observability & the SRE Mindset
+        </h2>
+
         <p>
-            The SRE mindset focuses on understanding user impact and system reliability rather than simply checking whether infrastructure is running.
+            The SRE mindset focuses on understanding user impact and system
+            reliability rather than simply checking whether infrastructure
+            is running.
         </p>
+
     </div>
+
 
 
     <!-- Topic 15 -->
+
     <div class="topic">
-        <h2>15. Observability Workflow</h2>
+
+        <span class="topic-number">
+            15
+        </span>
+
+        <h2>
+            Observability Workflow
+        </h2>
+
         <p>
-            An observability workflow typically moves from detecting an issue to analyzing metrics, logs, traces, dependencies, root cause, and recovery.
+            An observability workflow moves from detecting an issue to analyzing
+            metrics, logs, traces, dependencies, root cause, and recovery.
         </p>
+
     </div>
+
 
 
     <!-- Topic 16 -->
+
     <div class="topic">
-        <h2>16. Questions Observability Should Answer</h2>
+
+        <span class="topic-number">
+            16
+        </span>
+
+        <h2>
+            Questions Observability Should Answer
+        </h2>
+
         <p>
-            Good observability should help engineers determine what happened, where it happened, when it started, who was affected, what changed, and why it happened.
+            Good observability should help engineers determine what happened,
+            where it happened, when it started, who was affected, what changed,
+            and why it happened.
         </p>
+
     </div>
+
+
+
+    <!-- =================================
+         REAL WORLD
+    ================================== -->
+
+    <div class="section-title">
+        Real-World Production Scenario
+    </div>
+
 
 
     <!-- Topic 17 -->
+
     <div class="topic">
-        <h2>17. Real-World Production Example</h2>
+
+        <span class="topic-number">
+            17
+        </span>
+
+        <h2>
+            Real-World Production Example
+        </h2>
+
         <p>
-            A production incident such as a slow checkout API demonstrates how metrics, logs, and traces can be combined to identify the root cause.
+            A production incident such as a slow checkout API demonstrates how
+            metrics, logs, and traces can be combined to identify the root cause.
         </p>
+
     </div>
+
+
+
+    <!-- =================================
+         SUMMARY
+    ================================== -->
+
+    <div class="section-title">
+        Wrap Up
+    </div>
+
 
 
     <!-- Topic 18 -->
+
     <div class="topic">
-        <h2>18. Class Summary</h2>
+
+        <span class="topic-number">
+            18
+        </span>
+
+        <h2>
+            Class Summary
+        </h2>
+
         <p>
-            Observability provides the visibility and telemetry needed by SRE and DevOps teams to understand, troubleshoot, and improve the reliability of production systems.
+            Observability provides the visibility and telemetry needed by SRE
+            and DevOps teams to understand, troubleshoot, and improve the
+            reliability of production systems.
         </p>
+
     </div>
 
 
-    <!-- ArunOps Footer -->
-    <div class="footer">
-        <strong>ArunOps</strong><br>
-        Observability Series for SRE & DevOps Engineers<br><br>
-        Learn • Practice • Troubleshoot • Master
+
+    <!-- =================================
+         UPCOMING SERIES PREVIEW
+    ================================== -->
+
+    <div class="highlight">
+
+        <div class="highlight-title">
+            WHAT'S NEXT?
+        </div>
+
+        <div class="highlight-text">
+            In the upcoming ArunOps classes, we will take these concepts
+            from theory to real production implementations.
+        </div>
+
+        <div class="roadmap">
+
+            <div class="roadmap-item">
+                <strong>Metrics</strong>
+                Understand system measurements
+            </div>
+
+            <div class="roadmap-item">
+                <strong>Logs</strong>
+                Investigate application events
+            </div>
+
+            <div class="roadmap-item">
+                <strong>Traces</strong>
+                Follow distributed requests
+            </div>
+
+            <div class="roadmap-item">
+                <strong>Production</strong>
+                Troubleshoot real incidents
+            </div>
+
+        </div>
+
     </div>
+
+
+
+    <!-- =================================
+         FOOTER
+    ================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-brand">
+            ArunOps
+        </div>
+
+        Observability Series for SRE & DevOps Engineers
+
+        <br><br>
+
+        <span>
+            Learn • Practice • Troubleshoot • Master
+        </span>
+
+    </footer>
+
 
 </div>
 
